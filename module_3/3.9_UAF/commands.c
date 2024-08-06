@@ -7,6 +7,13 @@
 
 void show_team(command * cmd) {
     printf("%s showing team members\n", cmd->user);
+
+    team_member * cur = cmd->head;
+    while (cur != NULL) {
+        // print the team member's info
+        printf("%s    %d\n", cur->name, cur->age);
+        cur = cur->next;
+    }
 }
 
 
@@ -43,8 +50,24 @@ void add_member(command * cmd) {
 
     new_user = (team_member *)malloc(sizeof(team_member));
     memcpy(new_user->name, name, 8);
-    sscanf(age, "%c", &new_user->age);
+    sscanf(age, "%d", &new_user->age);
 
+
+    if (cmd->head == NULL) {
+        cmd->head = new_user;
+    } else {
+        // need to traverse the list to find end
+        team_member * prev;
+        team_member * cur = cmd->head;
+        while (cur != NULL) {
+            prev = cur;
+            cur = cur->next;
+        }
+        // prev should point to last node
+        prev->next = new_user;
+    }
+
+    new_user->next = NULL;
 
     printf("USER CREATED\n");
 }
