@@ -10,6 +10,7 @@
 #define BUFSIZE 64
 
 
+
 // Prints the available command options
 void print_options() {
     printf("=== AVAILABLE COMMANDS ===\n");
@@ -32,6 +33,10 @@ void process_command(char * cmd, command* c) {
         c->cm = logout;
     } else if (choice == 'a') {
         c->cm = add_member;
+    } else if (choice == 's') {
+        c->cm = show_team;
+    } else {
+        puts("No valid choice, rerunning last command");
     }
 
     // if the choice is invalid, then just redo the last command
@@ -45,6 +50,8 @@ int main() {
     memset(c->user, 0, 8);
     char tmp[8] = "T1Lead ";
     memcpy(c->user, tmp, 8);
+
+    c->head = NULL;
 
     char cmd[8];
 
