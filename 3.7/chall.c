@@ -13,6 +13,7 @@ typedef struct User {
 // call this to prove proficiency
 void win() {
 	printf("Congrats, you have demonstrated proficiency in topic 3.7\n");
+	exit(0);
 }
 
 // exit case
@@ -102,7 +103,7 @@ User * print_menu(User *user, User *head) {
 }
 int main() {
 	// might be useful...
-	printf("Oops, memory leak 0x%p\n", win);
+	printf("Oops, memory leak %p\n", win);
 
 	// create default user
 	User *root = malloc(sizeof(User));
