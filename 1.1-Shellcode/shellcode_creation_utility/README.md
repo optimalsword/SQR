@@ -1,0 +1,1 @@
+3. Use a shellcode creation utility of your choice (ex. msfvenom) to pop a shell and read the contents of the file `flag.txt` using the shell you popped. 

@@ -1,0 +1,1 @@
+1. Complete `lab_assembly.asm` and read the contents of the file `flag.txt` using the shell you popped.
